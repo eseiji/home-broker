@@ -1,3 +1,8 @@
+POST http://localhost:3000/wallets
+Content-Type: application/json
+
+###
+
 POST http://localhost:3000/assets
 Content-Type: application/json
 
@@ -9,9 +14,23 @@ Content-Type: application/json
 }
 
 ###
+GET http://localhost:3000/wallets
+
+###
 
 GET http://localhost:3000/assets
 
 ###
 
 GET http://localhost:3000/assets/A1
+
+###
+POST http://localhost:3000/wallets
+Content-Type: application/json
+
+{
+  "assetId": "Amazon",
+  "symbol": "A1",
+  "price": "100",
+  "image": "amzn.png"
+}
