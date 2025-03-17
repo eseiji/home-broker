@@ -17,7 +17,7 @@ export class WalletsService {
   ) {}
 
   create(createWalletDto: CreateWalletDto) {
-    return this.walletSchema.create();
+    return this.walletSchema.create(createWalletDto);
   }
 
   findAll() {
@@ -25,7 +25,7 @@ export class WalletsService {
   }
 
   findOne(id: string) {
-    return this.walletSchema.findById({ id }).populate([
+    return this.walletSchema.findById(id).populate([
       {
         // walletAsset
         path: 'assets',
