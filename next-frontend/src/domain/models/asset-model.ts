@@ -1,5 +1,5 @@
-export interface AssetDTO {
-  _id: string
+export interface AssetModel {
+  id: string
   name: string
   symbol: string
   imageUrl: string

@@ -18,7 +18,7 @@ Content-Type: application/json
 GET http://localhost:3000/assets
 
 ###
-GET http://localhost:3000/assets/A1
+GET http://localhost:3000/assets/N1
 
 ###
 POST http://localhost:3000/assets/A1/dailies
@@ -44,14 +44,14 @@ POST http://localhost:3000/wallets
 GET http://localhost:3000/wallets
 
 ###
-GET http://localhost:3000/wallets/53f7e57b-221c-4443-a63a-8625fd4cf41b
+GET http://localhost:3000/wallets/{{ walletId }}
 
 ###
-POST http://localhost:3000/wallets/53f7e57b-221c-4443-a63a-8625fd4cf41b/assets
+POST http://localhost:3000/wallets/{{ walletId }}/assets
 Content-Type: application/json
 
 {
-    "assetId": "9d3e1bbb-d0d2-4b0a-b525-ff0b711ae154",
+    "assetId": "{{ assetId }}",
     "shares": 100
 }
 
@@ -68,4 +68,4 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/orders?walletId=fcc4de1c-f0fb-4c1e-afbb-f259f1672447
+GET http://localhost:3000/orders?walletId={{ walletId }}

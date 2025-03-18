@@ -1,0 +1,61 @@
+import { walletId } from "@/app/page";
+import { AssetInformation, TabItem } from "@/components";
+import { OrderForm } from "@/components/order-form";
+import { AssetDTO } from "@/data/dtos/asset-dto";
+import { OrderType } from "@/data/dtos/order-dto";
+import { Card, Tabs } from "flowbite-react";
+import { AssetChartComponent } from "./asset-chart-component";
+
+
+export async function getAsset(symbol: string): Promise<AssetDTO> {
+  const response = await fetch(`http://localhost:3000/assets/${symbol}`)
+
+  const json = await response.json()
+
+  return json
+}
+
+export default async function AssetDashboard({ params }: { params: Promise<{ assetSymbol: string }> }) {
+
+  const { assetSymbol } = await params
+
+  const asset = await getAsset(assetSymbol)
+
+  return (
+    <div className="flex flex-col space-y-5 flex-grow w-full">
+      <div className="flex flex-col space-y-2">
+
+        <AssetInformation data={{
+          label: asset.name, imageUrl: "https://st3.depositphotos.com/1001860/16375/i/450/depositphotos_163757632-stock-photo-amazon-logo-on-a-white.jpg",
+        }} />
+
+        <span className="font-bold text-2xl">{asset.price}</span>
+      </div>
+
+      <div className="grid grid-cols-5 flex-grow gap-2">
+        <div className="col-span-2">
+          <Card>
+            <Tabs>
+              <TabItem active title="Comprar">
+                <OrderForm asset={{
+                  ...asset,
+                  id: asset._id
+                }} walletId={walletId} type={OrderType.BUY} />
+              </TabItem>
+              <TabItem title="Vender"> <OrderForm asset={{
+                ...asset,
+                id: asset._id
+              }} walletId={walletId} type={OrderType.SELL} /></TabItem>
+            </Tabs>
+          </Card>
+        </div>
+        <div className="col-span-3 flex flex-grow">
+          <AssetChartComponent asset={{
+            ...asset,
+            id: asset._id
+          }} />
+        </div>
+      </div>
+    </div>
+  )
+}

@@ -4,7 +4,10 @@ import { Table, TableBody, TableHead, TableHeadCell, TableCell, Button, TableRow
 
 export async function getAssets(): Promise<AssetDTO[]> {
   const response = await fetch(`http://localhost:3000/assets`)
-  return response.json()
+  const json = await response.json()
+  console.log('json', json);
+
+  return json
 }
 
 export default async function AssetsPage() {

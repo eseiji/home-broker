@@ -29,7 +29,7 @@ export class Order {
   @Prop({ type: mongoose.Schema.Types.Int32 })
   partial: number;
 
-  @Prop({ type: mongoose.Schema.Types.Decimal128 })
+  @Prop()
   price: number;
 
   @Prop({ type: String, ref: Wallet.name })

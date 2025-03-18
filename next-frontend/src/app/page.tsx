@@ -1,15 +1,32 @@
 import { AssetInformation } from "@/components";
+import { WalletList } from "@/components/wallet-list";
 import { WalletDto } from "@/data/dtos/wallet-dto";
 import { Table, TableBody, TableHead, TableHeadCell, TableCell, Button, TableRow } from "flowbite-react";
+import Link from "next/link";
+
+export const walletId = "984d1919-0a27-40ea-b777-8e63b364a4d3"
 
 export async function getWallet(walletId: string): Promise<WalletDto> {
   const response = await fetch(`http://localhost:3000/wallets/${walletId}`)
-  return response.json()
+  const json = response.json()
+  return json
 }
 
 export default async function Home() {
-  const wallet = await getWallet('53f7e57b-221c-4443-a63a-8625fd4cf41b')
-  console.log('wallet', wallet);
+
+  if (!walletId) {
+    return (
+      <WalletList />
+    )
+  }
+
+  const wallet = await getWallet(walletId)
+
+  if (!wallet) {
+    return (
+      <WalletList />
+    )
+  }
 
   return (
     <div className="flex flex-col space-y-5 flex-grow w-full">
@@ -41,7 +58,7 @@ export default async function Home() {
                   <TableCell>{walletAsset.asset.price}</TableCell>
                   <TableCell>{walletAsset.shares}</TableCell>
                   <TableCell>
-                    <Button color="blue">Comprar/Vender</Button>
+                    <Button color="blue" as={Link} href={`/assets/${walletAsset.asset.symbol}`}>Comprar/Vender</Button>
                   </TableCell>
                 </TableRow>
               )
