@@ -4,7 +4,7 @@ import { WalletDto } from "@/data/dtos/wallet-dto";
 import { Table, TableBody, TableHead, TableHeadCell, TableCell, Button, TableRow } from "flowbite-react";
 import Link from "next/link";
 
-export const walletId = "984d1919-0a27-40ea-b777-8e63b364a4d3"
+export const walletId = "b14ffccf-41ea-44fd-8150-572846bfb1c3"
 
 export async function getWallet(walletId: string): Promise<WalletDto> {
   const response = await fetch(`http://localhost:3000/wallets/${walletId}`)
@@ -44,9 +44,9 @@ export default async function Home() {
           </TableHead>
 
           <TableBody>
-            {wallet.assets.map((walletAsset) => {
+            {wallet.assets.map((walletAsset, index) => {
               return (
-                <TableRow key={walletAsset._id}>
+                <TableRow key={index}>
                   <TableCell>
                     <AssetInformation
 

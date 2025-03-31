@@ -1,6 +1,11 @@
-import { OrderType } from "@/data/dtos/order-dto";
+'use client'
+
+import { OrderDto, OrderType } from "@/data/dtos/order-dto";
 import { AssetModel } from "@/domain/models";
 import { Button, Label, TextInput } from "flowbite-react";
+import { FormEvent } from "react";
+import { socket } from '../socket-io'
+import { toast } from "react-toastify";
 
 interface OrderFormProps {
   asset: AssetModel, walletId: string, type: OrderType
@@ -15,8 +20,28 @@ export function OrderForm(props: OrderFormProps) {
   const inputColor = type === OrderType.BUY ? "info" : "failure"
   const buttonColor = type === OrderType.BUY ? "blue" : "failure"
 
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const formData = new FormData(event.currentTarget)
+    const data = Object.fromEntries(formData.entries())
+
+    socket.connect()
+
+    const newOrder: OrderDto = await socket.emitWithAck("orders/create", data)
+
+    console.log('newOrder', newOrder);
+
+
+    toast(`Ordem de ${translatedType} de ${newOrder.shares} ações de ${newOrder.asset.symbol} criada com sucesso!`, {
+      type: 'success',
+      position: 'top-right'
+    })
+
+  }
+
   return (
-    <form action="">
+    <form onSubmit={onSubmit}>
       <input type="hidden" defaultValue={asset.id} name="assetId" />
       <input type="hidden" defaultValue={walletId} name="walletId" />
       <input type="hidden" defaultValue={type} name="type" />

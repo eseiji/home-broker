@@ -1,6 +1,7 @@
 import { AssetInformation } from "@/components";
 import { AssetDTO } from "@/data/dtos/asset-dto";
 import { Table, TableBody, TableHead, TableHeadCell, TableCell, Button, TableRow } from "flowbite-react";
+import Link from "next/link";
 
 export async function getAssets(): Promise<AssetDTO[]> {
   const response = await fetch(`http://localhost:3000/assets`)
@@ -40,7 +41,7 @@ export default async function AssetsPage() {
                     /></TableCell>
                   <TableCell>{asset.price}</TableCell>
                   <TableCell>
-                    <Button color="blue">Comprar/Vender</Button>
+                    <Button color="blue" as={Link} href={`/assets/${asset.symbol}`}>Comprar/Vender</Button>
                   </TableCell>
                 </TableRow>
               )
