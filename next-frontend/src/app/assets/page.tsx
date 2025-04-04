@@ -2,6 +2,8 @@ import { AssetInformation } from "@/components";
 import { AssetDTO } from "@/data/dtos/asset-dto";
 import { Table, TableBody, TableHead, TableHeadCell, TableCell, Button, TableRow } from "flowbite-react";
 import Link from "next/link";
+import { AssetSync } from "@/components/asset-sync";
+import { AssetTableRow } from "./table-row";
 
 export async function getAssets(): Promise<AssetDTO[]> {
   const response = await fetch(`http://localhost:3000/assets`)
@@ -31,25 +33,15 @@ export default async function AssetsPage() {
           <TableBody>
             {assets.map((asset) => {
               return (
-                <TableRow key={asset._id}>
-                  <TableCell>
-                    <AssetInformation
-                      data={{
-                        imageUrl: "https://st3.depositphotos.com/1001860/16375/i/450/depositphotos_163757632-stock-photo-amazon-logo-on-a-white.jpg",
-                        label: asset.name
-                      }}
-                    /></TableCell>
-                  <TableCell>{asset.price}</TableCell>
-                  <TableCell>
-                    <Button color="blue" as={Link} href={`/assets/${asset.symbol}`}>Comprar/Vender</Button>
-                  </TableCell>
-                </TableRow>
+                <AssetTableRow asset={asset} key={asset._id} />
               )
             })}
 
           </TableBody>
         </Table>
       </div>
+
+      <AssetSync assetsSymbols={assets.map(asset => asset.symbol)} />
     </div>
   );
 }

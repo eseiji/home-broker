@@ -30,7 +30,7 @@ export class AssetsService {
     return this.assetSchema.deleteOne({ id });
   }
 
-  subscribeEvents() {
+  subscribeEvents(): Observable<Asset> {
     return new Observable((observer) => {
       this.assetSchema
         .watch(
@@ -56,10 +56,7 @@ export class AssetsService {
 
           const asset = await this.assetSchema.findById(data.fullDocument._id);
 
-          observer.next({
-            evenr: 'asset-updated',
-            data: asset,
-          });
+          observer.next(asset);
         });
     });
   }

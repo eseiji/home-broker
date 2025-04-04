@@ -5,6 +5,8 @@ import { AssetDTO } from "@/data/dtos/asset-dto";
 import { OrderType } from "@/data/dtos/order-dto";
 import { Card, Tabs } from "flowbite-react";
 import { AssetChartComponent } from "./asset-chart-component";
+import { AssetDailyDTO } from "@/data/dtos/asset-daily-dto";
+import { Time } from "lightweight-charts";
 
 
 export async function getAsset(symbol: string): Promise<AssetDTO> {
@@ -15,11 +17,26 @@ export async function getAsset(symbol: string): Promise<AssetDTO> {
   return json
 }
 
+export async function getAssetDailies(assetSymbol: string): Promise<AssetDailyDTO[]> {
+  const response = await fetch(`http://localhost:3000/assets/${assetSymbol}/dailies`)
+  const json = await response.json()
+
+  return json
+}
+
+
 export default async function AssetDashboard({ params }: { params: Promise<{ assetSymbol: string }> }) {
 
   const { assetSymbol } = await params
 
   const asset = await getAsset(assetSymbol)
+
+  const assetDailies = await getAssetDailies(asset.symbol)
+
+  const chartData = assetDailies.map(assetDaily => ({
+    time: (Date.parse(assetDaily.date) / 1000) as Time,
+    value: Number(assetDaily.price)
+  }))
 
   return (
     <div className="flex flex-col space-y-5 flex-grow w-full">
@@ -53,7 +70,7 @@ export default async function AssetDashboard({ params }: { params: Promise<{ ass
           <AssetChartComponent asset={{
             ...asset,
             id: asset._id
-          }} />
+          }} data={chartData} />
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
-import { AssetInformation } from "@/components";
+import { AssetSync } from "@/components/asset-sync";
 import { WalletList } from "@/components/wallet-list";
 import { WalletDto } from "@/data/dtos/wallet-dto";
-import { Table, TableBody, TableHead, TableHeadCell, TableCell, Button, TableRow } from "flowbite-react";
-import Link from "next/link";
+import { Table, TableBody, TableHead, TableHeadCell } from "flowbite-react";
+import { WalletAssetTableRow } from "./table-row";
 
-export const walletId = "b14ffccf-41ea-44fd-8150-572846bfb1c3"
+export const walletId = "cc986b73-9106-452a-934d-3e1ef4e8d985"
 
 export async function getWallet(walletId: string): Promise<WalletDto> {
   const response = await fetch(`http://localhost:3000/wallets/${walletId}`)
@@ -21,6 +21,9 @@ export default async function Home() {
   }
 
   const wallet = await getWallet(walletId)
+
+  console.log('wallet', wallet);
+
 
   if (!wallet) {
     return (
@@ -46,27 +49,29 @@ export default async function Home() {
           <TableBody>
             {wallet.assets.map((walletAsset, index) => {
               return (
-                <TableRow key={index}>
-                  <TableCell>
-                    <AssetInformation
+                <WalletAssetTableRow walletAsset={walletAsset} key={index} />
+                // <TableRow key={index}>
+                //   <TableCell>
+                //     <AssetInformation
 
-                      data={{
-                        imageUrl: "https://st3.depositphotos.com/1001860/16375/i/450/depositphotos_163757632-stock-photo-amazon-logo-on-a-white.jpg",
-                        label: walletAsset.asset.name
-                      }}
-                    /></TableCell>
-                  <TableCell>{walletAsset.asset.price}</TableCell>
-                  <TableCell>{walletAsset.shares}</TableCell>
-                  <TableCell>
-                    <Button color="blue" as={Link} href={`/assets/${walletAsset.asset.symbol}`}>Comprar/Vender</Button>
-                  </TableCell>
-                </TableRow>
+                //       data={{
+                //         imageUrl: "https://st3.depositphotos.com/1001860/16375/i/450/depositphotos_163757632-stock-photo-amazon-logo-on-a-white.jpg",
+                //         label: walletAsset.asset.name
+                //       }}
+                //     /></TableCell>
+                //   <TableCell>{walletAsset.asset.price}</TableCell>
+                //   <TableCell>{walletAsset.shares}</TableCell>
+                //   <TableCell>
+                //     <Button color="blue" as={Link} href={`/assets/${walletAsset.asset.symbol}`}>Comprar/Vender</Button>
+                //   </TableCell>
+                // </TableRow>
               )
             })}
 
           </TableBody>
         </Table>
       </div>
+      <AssetSync assetsSymbols={wallet.assets.map(asset => asset.asset.symbol)} />
     </div>
   );
 }
