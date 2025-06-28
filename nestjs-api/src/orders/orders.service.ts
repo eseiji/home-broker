@@ -1,14 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { Order, OrderStatus } from './entities/order.entity';
-import { Model } from 'mongoose';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import { Order, OrderDocument, OrderStatus, OrderType } from './entities/order.entity';
+import mongoose, { Model } from 'mongoose';
 import { Asset } from 'src/assets/entities/asset.entity';
+import { CreateTradeDto } from './dto/create-trade.dto';
+import { AssetDocument } from 'src/assets/entities/asset.entity';
+import { Trade } from './entities/trade.entity';
+import { AssetDaily } from 'src/assets/entities/asset-daily.entity';
+import { WalletAsset } from 'src/wallets/entities/wallet-asset.entity';
+import { Wallet, WalletDocument } from 'src/wallets/entities/wallet.entity';
 
 @Injectable()
 export class OrdersService {
-  constructor(@InjectModel(Order.name) private orderSchema: Model<Order>) {}
+  constructor(@InjectModel(Order.name) private orderSchema: Model<Order>, @InjectConnection() private connection: mongoose.Connection,
+    @InjectModel(Trade.name) private tradeSchema: Model<Trade>,
+    @InjectModel(Asset.name) private assetSchema: Model<Asset>,
+    @InjectModel(AssetDaily.name) private assetDailySchema: Model<AssetDaily>,
+    @InjectModel(WalletAsset.name) private walletAssetSchema: Model<WalletAsset>,
+    @InjectModel(Wallet.name) private walletSchema: Model<Wallet>) { }
 
   create(createOrderDto: CreateOrderDto) {
     return this.orderSchema.create({
@@ -40,5 +51,109 @@ export class OrdersService {
 
   remove(id: number) {
     return `This action removes a #${id} order`;
+  }
+
+  async createTrade(createTradeDto: CreateTradeDto) {
+    const session = await this.connection.startSession();
+    await session.startTransaction();
+    try {
+      const order = (await this.orderSchema
+        .findById(createTradeDto.orderId)
+        .session(session)) as OrderDocument & { trades: string[] };
+      if (!order) {
+        throw new Error('Order not found');
+      }
+      const tradeDocs = await this.tradeSchema.create(
+        [
+          {
+            broker_trade_id: createTradeDto.brokerTradeId,
+            related_investor_id: createTradeDto.relatedInvestorId,
+            shares: createTradeDto.shares,
+            price: createTradeDto.price,
+            order: order._id,
+          },
+        ],
+        { session },
+      );
+      const trade = tradeDocs[0];
+
+      order.partial -= createTradeDto.shares;
+      order.status = createTradeDto.status;
+      order.trades.push(trade._id);
+      await order.save({ session });
+
+      if (createTradeDto.status === OrderStatus.CLOSED && order.type === OrderType.BUY) {
+        const asset = (await this.assetSchema
+          .findById(order.asset)
+          .session(session)) as AssetDocument;
+        if (asset!.updatedAt < createTradeDto.date) {
+          asset!.price = createTradeDto.price.toString();
+          await asset!.save({ session });
+        }
+        const assetDaily = await this.assetDailySchema
+          .findOne({
+            asset: order.asset,
+            date: createTradeDto.date,
+          })
+          .session(session);
+        if (!assetDaily) {
+          await this.assetDailySchema.create(
+            [
+              {
+                asset: order.asset,
+                date: createTradeDto.date,
+                price: createTradeDto.price,
+              },
+            ],
+            { session },
+          );
+        }
+      }
+
+      if (createTradeDto.status === OrderStatus.CLOSED) {
+        const walletAsset = await this.walletAssetSchema
+          .findOne({
+            wallet: order.wallet,
+            asset: order.asset,
+          })
+          .session(session);
+
+        if (!walletAsset && order.type === OrderType.SELL) {
+          throw new Error('Asset not found in wallet');
+        }
+
+        if (walletAsset) {
+          walletAsset.shares +=
+            order.type === OrderType.BUY ? createTradeDto.shares : -createTradeDto.shares;
+          await walletAsset.save({ session });
+        } else {
+          const walletAssetDocs = await this.walletAssetSchema.create(
+            [
+              {
+                wallet: order.wallet,
+                asset: order.asset,
+                shares: createTradeDto.shares,
+              },
+            ],
+            { session },
+          );
+          const walletAsset = walletAssetDocs[0];
+          const wallet = (await this.walletSchema.findById(
+            order.wallet,
+          )) as WalletDocument & { assets: string[] };
+          wallet.assets.push(walletAsset._id);
+          await wallet.save({ session });
+        }
+      }
+
+      await session.commitTransaction();
+      return order;
+    } catch (e) {
+      await session.abortTransaction();
+      throw e;
+    } finally {
+      await session.endSession();
+    }
+
   }
 }
