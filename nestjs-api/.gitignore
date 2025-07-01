@@ -54,4 +54,7 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-where-stopped
+check-messages.js
+debug-kafka.js
+test-detailed.js
+test-producer.js

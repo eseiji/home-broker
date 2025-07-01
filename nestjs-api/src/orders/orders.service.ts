@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
@@ -11,18 +11,28 @@ import { Trade } from './entities/trade.entity';
 import { AssetDaily } from 'src/assets/entities/asset-daily.entity';
 import { WalletAsset } from 'src/wallets/entities/wallet-asset.entity';
 import { Wallet, WalletDocument } from 'src/wallets/entities/wallet.entity';
+import * as kafka from '@confluentinc/kafka-javascript'
 
 @Injectable()
-export class OrdersService {
+export class OrdersService implements OnModuleInit {
+
+  private kafkaProducer: kafka.KafkaJS.Producer;
+
   constructor(@InjectModel(Order.name) private orderSchema: Model<Order>, @InjectConnection() private connection: mongoose.Connection,
     @InjectModel(Trade.name) private tradeSchema: Model<Trade>,
     @InjectModel(Asset.name) private assetSchema: Model<Asset>,
     @InjectModel(AssetDaily.name) private assetDailySchema: Model<AssetDaily>,
     @InjectModel(WalletAsset.name) private walletAssetSchema: Model<WalletAsset>,
-    @InjectModel(Wallet.name) private walletSchema: Model<Wallet>) { }
+    @InjectModel(Wallet.name) private walletSchema: Model<Wallet>,
+    private kafkaInstance: kafka.KafkaJS.Kafka) { }
 
-  create(createOrderDto: CreateOrderDto) {
-    return this.orderSchema.create({
+  async onModuleInit() {
+    this.kafkaProducer = this.kafkaInstance.producer();
+    await this.kafkaProducer.connect()
+  }
+
+  async create(createOrderDto: CreateOrderDto) {
+    const order = await this.orderSchema.create({
       wallet: createOrderDto.walletId,
       asset: createOrderDto.assetId,
       shares: createOrderDto.shares,
@@ -31,6 +41,25 @@ export class OrdersService {
       type: createOrderDto.type,
       status: OrderStatus.PENDING,
     });
+
+    await this.kafkaProducer.send({
+      topic: 'input',
+      messages: [
+        {
+          key: order._id,
+          value: JSON.stringify({
+            order_id: order._id,
+            investor_id: order.wallet,
+            asset_id: order.asset,
+            shares: order.shares,
+            price: order.price,
+            order_type: order.type,
+          })
+        }
+      ]
+    })
+
+    return order;
   }
 
   findAll(filter: { walletId: string }) {

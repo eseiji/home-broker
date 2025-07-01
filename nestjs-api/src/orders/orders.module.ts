@@ -10,6 +10,8 @@ import { Asset, AssetSchema } from 'src/assets/entities/asset.entity';
 import { WalletAsset, WalletAssetSchema } from 'src/wallets/entities/wallet-asset.entity';
 import { AssetDaily, AssetDailySchema } from 'src/assets/entities/asset-daily.entity';
 import { Wallet, WalletSchema } from 'src/wallets/entities/wallet.entity';
+import * as kafka from '@confluentinc/kafka-javascript'
+import { kafkaConfig } from 'src/config/kafka.config';
 
 @Module({
   imports: [
@@ -41,6 +43,15 @@ import { Wallet, WalletSchema } from 'src/wallets/entities/wallet.entity';
     ]),
   ],
   controllers: [OrdersController, OrdersConsumer],
-  providers: [OrdersService, OrdersGateway],
+  providers: [OrdersService, OrdersGateway, {
+    provide: kafka.KafkaJS.Kafka,
+    useFactory: () => {
+      return new kafka.KafkaJS.Kafka({
+        'bootstrap.servers': kafkaConfig.brokers,
+        // 'client.id': kafkaConfig.clientId,
+      });
+    },
+  }],
+  exports: [OrdersService],
 })
 export class OrdersModule { }

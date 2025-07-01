@@ -1,5 +1,5 @@
 import { Controller, Injectable } from "@nestjs/common";
-import { EventPattern } from "@nestjs/microservices";
+import { EventPattern, Payload } from "@nestjs/microservices";
 import { OrderStatus, OrderType } from "./entities/order.entity";
 import { OrdersService } from "./orders.service";
 
@@ -27,10 +27,20 @@ export class OrdersConsumer {
   constructor(private ordersService: OrdersService) { }
 
   @EventPattern('output')
-  handleTrade(message: TradeKafkaMessage) {
+  async handleTrade(@Payload() message: TradeKafkaMessage) {
+    const transaction = message.transactions[message.transactions.length - 1];
 
 
     console.log('Received trade message:', message);
-    this.ordersService.createTrade();
+
+    await this.ordersService.createTrade({
+      orderId: message.order_id,
+      status: message.status,
+      relatedInvestorId: message.order_type === OrderType.BUY ? transaction.seller_id : transaction.buyer_id,
+      brokerTradeId: transaction.transaction_id,
+      shares: message.shares,
+      price: transaction.price,
+      date: new Date(),
+    });
   }
 }

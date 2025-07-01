@@ -14,8 +14,8 @@ import (
 
 func main() {
 	ordersIn := make(chan *entity.Order)
- 	ordersOut := make(chan *entity.Order)
-  wg := &sync.WaitGroup{}
+	ordersOut := make(chan *entity.Order)
+	wg := &sync.WaitGroup{}
 	defer wg.Wait()
 
 	kafkaMsgChan := make(chan *ckafka.Message)
@@ -23,17 +23,17 @@ func main() {
 	consumerConfig := &ckafka.ConfigMap{
 		"bootstrap.servers": "localhost:9094",
 		"group.id":          "trade",
-		"auto.offset.reset": "latest",
-		"security.protocol": "PLAINTEXT",
+		"auto.offset.reset": "earliest",
+		// "security.protocol": "PLAINTEXT",
 	}
 
 	producerConfig := &ckafka.ConfigMap{
 		"bootstrap.servers": "localhost:9094",
-		"security.protocol": "PLAINTEXT",
+		// "security.protocol": "PLAINTEXT",
 	}
 	producer := kafka.NewKafkaProducer(producerConfig)
-	
-	consumer := kafka.NewConsumer(consumerConfig, []string{"orders"})
+
+	consumer := kafka.NewConsumer(consumerConfig, []string{"input"})
 	go consumer.Consume(kafkaMsgChan)
 
 	book := entity.NewBook(ordersIn, ordersOut, wg)
@@ -43,12 +43,12 @@ func main() {
 		for msg := range kafkaMsgChan {
 			wg.Add(1)
 			fmt.Println(string(msg.Value))
-			var tradeInput dto.TradeInput
+			tradeInput := dto.TradeInput{}
 			err := json.Unmarshal(msg.Value, &tradeInput)
 			if err != nil {
 				panic(err)
 			}
-			
+
 			order := transformer.TransformInput(tradeInput)
 			ordersIn <- order
 		}
@@ -56,13 +56,13 @@ func main() {
 
 	for res := range ordersOut {
 		output := transformer.TranformOutput(res)
-		jsonOutput,err := json.MarshalIndent(output, "", " ")
+		jsonOutput, err := json.MarshalIndent(output, "", " ")
 		if err != nil {
 			panic(err)
 		}
 
 		fmt.Println(string(jsonOutput))
-		producer.Publish(jsonOutput, []byte("orders"), "processed_orders")
+		producer.Publish(jsonOutput, []byte("orders"), "output")
 	}
-	
+
 }
