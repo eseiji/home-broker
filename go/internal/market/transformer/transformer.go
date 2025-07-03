@@ -18,25 +18,24 @@ func TransformInput(input dto.TradeInput) *entity.Order {
 
 func TranformOutput(order *entity.Order) *dto.OrderOutput {
 	output := &dto.OrderOutput{
-		OrderID: order.ID,
-		InvestorID: order.Investor.ID,
-		AssetID: order.Asset.ID,
-		OrderType: order.OrderType,
-		Status: order.Status,
+		OrderID:       order.ID,
+		InvestorID:    order.Investor.ID,
+		AssetID:       order.Asset.ID,
+		OrderType:     order.OrderType,
+		Status:        order.Status,
 		PartialShares: order.PendingShares,
-		Shares: order.Shares,
+		Shares:        order.Shares,
 	}
 
 	var transactionsOutput []*dto.TransactionOutput
 	for _, transaction := range order.Transactions {
 		transactionOutput := &dto.TransactionOutput{
 			TransactionID: transaction.ID,
-			BuyerID: transaction.BuyOrder.Investor.ID,
-			SellerID: transaction.SellOrder.Investor.ID,
-			AssetID: transaction.SellOrder.Asset.ID,
-			Price: transaction.Price,
-			Shares: transaction.Shares,
-			
+			BuyerID:       transaction.BuyOrder.Investor.ID,
+			SellerID:      transaction.SellOrder.Investor.ID,
+			AssetID:       transaction.SellOrder.Asset.ID,
+			Price:         transaction.Price,
+			Shares:        transaction.SellOrder.Shares - transaction.SellOrder.PendingShares,
 		}
 		transactionsOutput = append(transactionsOutput, transactionOutput)
 	}

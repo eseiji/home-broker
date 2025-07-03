@@ -25,9 +25,11 @@ export default async function AssetsPage() {
       <div className="overflow-x-auto w-full">
         <Table className="w-full max-w-full table-fixed">
           <TableHead>
-            <TableHeadCell>Ativo</TableHeadCell>
-            <TableHeadCell>Cotação</TableHeadCell>
-            <TableHeadCell>Comprar/Vender</TableHeadCell>
+            <TableRow>
+              <TableHeadCell>Ativo</TableHeadCell>
+              <TableHeadCell>Cotação</TableHeadCell>
+              <TableHeadCell>Comprar/Vender</TableHeadCell>
+            </TableRow>
           </TableHead>
 
           <TableBody>

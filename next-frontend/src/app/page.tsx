@@ -1,10 +1,10 @@
 import { AssetSync } from "@/components/asset-sync";
 import { WalletList } from "@/components/wallet-list";
 import { WalletDto } from "@/data/dtos/wallet-dto";
-import { Table, TableBody, TableHead, TableHeadCell } from "flowbite-react";
+import { Table, TableBody, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import { WalletAssetTableRow } from "./table-row";
 
-export const walletId = "cc986b73-9106-452a-934d-3e1ef4e8d985"
+export const walletId = "2b7b167d-6e74-48ed-9340-4e53e0b208d6"
 
 export async function getWallet(walletId: string): Promise<WalletDto> {
   const response = await fetch(`http://localhost:3000/wallets/${walletId}`)
@@ -40,10 +40,12 @@ export default async function Home() {
       <div className="overflow-x-auto w-full">
         <Table className="w-full max-w-full table-fixed">
           <TableHead>
-            <TableHeadCell>Ativo</TableHeadCell>
-            <TableHeadCell>Cotação</TableHeadCell>
-            <TableHeadCell>Quantidade</TableHeadCell>
-            <TableHeadCell>Comprar/Vender</TableHeadCell>
+            <TableRow>
+              <TableHeadCell>Ativo</TableHeadCell>
+              <TableHeadCell>Cotação</TableHeadCell>
+              <TableHeadCell>Quantidade</TableHeadCell>
+              <TableHeadCell>Comprar/Vender</TableHeadCell>
+            </TableRow>
           </TableHead>
 
           <TableBody>

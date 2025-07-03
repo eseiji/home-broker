@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"homebroker/internal/infra/kafka"
 	"homebroker/internal/market/dto"
 	"homebroker/internal/market/entity"
@@ -23,17 +22,17 @@ func main() {
 	consumerConfig := &ckafka.ConfigMap{
 		"bootstrap.servers": "localhost:9094",
 		"group.id":          "trade",
-		"auto.offset.reset": "earliest",
-		// "security.protocol": "PLAINTEXT",
+		"auto.offset.reset": "latest",
+		"security.protocol": "PLAINTEXT",
 	}
 
 	producerConfig := &ckafka.ConfigMap{
 		"bootstrap.servers": "localhost:9094",
-		// "security.protocol": "PLAINTEXT",
+		"security.protocol": "PLAINTEXT",
 	}
 	producer := kafka.NewKafkaProducer(producerConfig)
-
 	consumer := kafka.NewConsumer(consumerConfig, []string{"input"})
+
 	go consumer.Consume(kafkaMsgChan)
 
 	book := entity.NewBook(ordersIn, ordersOut, wg)
@@ -42,7 +41,6 @@ func main() {
 	go func() {
 		for msg := range kafkaMsgChan {
 			wg.Add(1)
-			fmt.Println(string(msg.Value))
 			tradeInput := dto.TradeInput{}
 			err := json.Unmarshal(msg.Value, &tradeInput)
 			if err != nil {
@@ -61,7 +59,6 @@ func main() {
 			panic(err)
 		}
 
-		fmt.Println(string(jsonOutput))
 		producer.Publish(jsonOutput, []byte("orders"), "output")
 	}
 

@@ -7,6 +7,8 @@ import { Card, Tabs } from "flowbite-react";
 import { AssetChartComponent } from "./asset-chart-component";
 import { AssetDailyDTO } from "@/data/dtos/asset-daily-dto";
 import { Time } from "lightweight-charts";
+import { AssetPrice } from "../asset-price";
+import { AssetSync } from "@/components/asset-sync";
 
 
 export async function getAsset(symbol: string): Promise<AssetDTO> {
@@ -46,7 +48,7 @@ export default async function AssetDashboard({ params }: { params: Promise<{ ass
           label: asset.name, imageUrl: "https://st3.depositphotos.com/1001860/16375/i/450/depositphotos_163757632-stock-photo-amazon-logo-on-a-white.jpg",
         }} />
 
-        <span className="font-bold text-2xl">{asset.price}</span>
+        <AssetPrice asset={asset} />
       </div>
 
       <div className="grid grid-cols-5 flex-grow gap-2">
@@ -73,6 +75,7 @@ export default async function AssetDashboard({ params }: { params: Promise<{ ass
           }} data={chartData} />
         </div>
       </div>
+      <AssetSync assetsSymbols={[asset.symbol]} />
     </div>
   )
 }

@@ -17,7 +17,7 @@ export class AssetsGateway implements OnGatewayInit {
   constructor(
     private assetsService: AssetsService,
     private assetsDailiesService: AssetDailiesService,
-  ) {}
+  ) { }
 
   afterInit(server: Server) {
     this.assetsService.subscribeEvents().subscribe((asset) => {

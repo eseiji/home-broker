@@ -22,11 +22,14 @@ export default async function OrdersPage() {
       <div className="overflow-x-auto w-full">
         <Table className="w-full max-w-full table-fixed">
           <TableHead>
-            <TableHeadCell>Ativo</TableHeadCell>
-            <TableHeadCell>Preço</TableHeadCell>
-            <TableHeadCell>Quantidade</TableHeadCell>
-            <TableHeadCell>Tipo</TableHeadCell>
-            <TableHeadCell>Status</TableHeadCell>
+            <TableRow>
+
+              <TableHeadCell>Ativo</TableHeadCell>
+              <TableHeadCell>Preço</TableHeadCell>
+              <TableHeadCell>Quantidade</TableHeadCell>
+              <TableHeadCell>Tipo</TableHeadCell>
+              <TableHeadCell>Status</TableHeadCell>
+            </TableRow>
           </TableHead>
 
           <TableBody>

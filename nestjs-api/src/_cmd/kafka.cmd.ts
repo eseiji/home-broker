@@ -11,7 +11,7 @@ async function bootstrap() {
       consumer: { allowAutoTopicCreation: true, sessionTimeout: 10000, rebalanceTimeout: 10000 },
     })
   });
-  console.log('Starting kafka server...');
+  console.log('Starting kafka server...')
 
   await app.listen();
 }

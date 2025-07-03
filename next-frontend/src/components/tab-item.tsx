@@ -1,5 +1,5 @@
 'use client'
 
-import { Tabs } from 'flowbite-react'
+import { TabItem as FlowbiteTabItem } from 'flowbite-react'
 
-export const TabItem = Tabs.Item
+export const TabItem = FlowbiteTabItem

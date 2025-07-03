@@ -1,4 +1,6 @@
-@import "tailwindcss/preflight";
-@import "tailwindcss/utilities";
+@import "tailwindcss";
+@source "../../.flowbite-react/class-list.json";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+@plugin "flowbite-typography";
 
-@import "flowbite";

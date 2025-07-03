@@ -1,6 +1,8 @@
 package entity
 
-import "sync"
+import (
+	"sync"
+)
 
 type Book struct {
 	Orders          []*Order
@@ -11,7 +13,13 @@ type Book struct {
 }
 
 func NewBook(incomingOrders chan *Order, processedOrders chan *Order, wg *sync.WaitGroup) *Book {
-	return &Book{Orders: []*Order{}, Transactions: []*Transaction{}, IncomingOrders: incomingOrders, ProcessedOrders: processedOrders, Wg: wg}
+	return &Book{
+		Orders:          []*Order{},
+		Transactions:    []*Transaction{},
+		IncomingOrders:  incomingOrders,
+		ProcessedOrders: processedOrders,
+		Wg:              wg,
+	}
 }
 
 type orderQueue []*Order

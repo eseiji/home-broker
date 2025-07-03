@@ -88,7 +88,7 @@ export class OrdersService implements OnModuleInit {
     try {
       const order = (await this.orderSchema
         .findById(createTradeDto.orderId)
-        .session(session)) as OrderDocument & { trades: string[] };
+        .session(session)) as OrderDocument & { trades: string[] }
       if (!order) {
         throw new Error('Order not found');
       }

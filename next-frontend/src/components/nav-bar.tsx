@@ -35,16 +35,14 @@ export default function Navbar() {
         <NavbarToggle />
       </div>
       <NavbarCollapse>
-        <Link href={`/?wallet_id=${wallet_id}`} passHref legacyBehavior>
-          <NavbarLink className="text-xl">Carteira</NavbarLink>
+        <Link href={`/?wallet_id=${wallet_id}`} passHref className="text-xl">
+          Carteira
         </Link>
-        <Link href={`/assets/?wallet_id=${wallet_id}`} passHref legacyBehavior>
-          <NavbarLink className="text-xl">Ativos</NavbarLink>
+        <Link href={`/assets/?wallet_id=${wallet_id}`} passHref className="text-xl">
+          Ativos
         </Link>
-        <Link href={`/orders?wallet_id=${wallet_id}`} passHref legacyBehavior>
-          <NavbarLink href="#" className="text-xl">
-            Ordens
-          </NavbarLink>
+        <Link href={`/orders?wallet_id=${wallet_id}`} passHref className="text-xl">
+          Ordens
         </Link>
       </NavbarCollapse>
     </FlowbiteNavbar>

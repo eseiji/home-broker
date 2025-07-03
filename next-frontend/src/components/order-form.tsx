@@ -48,7 +48,7 @@ export function OrderForm(props: OrderFormProps) {
 
       <div>
         <div>
-          <Label htmlFor="shares" value="Quantidade" className={color} />
+          <Label htmlFor="shares" className={color}>Quantidade</Label>
         </div>
 
         <TextInput id="shares" name="shares" required type="number" min={1} step={1} defaultValue={1} color={inputColor} />
@@ -56,7 +56,7 @@ export function OrderForm(props: OrderFormProps) {
 
       <div>
         <div>
-          <Label htmlFor="price" value="Preço" className={color} />
+          <Label htmlFor="price" className={color}>Preço</Label>
         </div>
 
         <TextInput id="price" name="price" required type="string" min={1} step={1} defaultValue={1} color={inputColor} />

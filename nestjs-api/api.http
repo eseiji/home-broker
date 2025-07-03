@@ -6,7 +6,7 @@ Content-Type: application/json
 {
     "name": "Nvidia",
     "symbol": "N1",
-    "price": 110,
+    "price": 5,
     "image": "AMZN.png"
 }
 
@@ -52,7 +52,7 @@ Content-Type: application/json
 
 {
     "assetId": "{{ assetId }}",
-    "shares": 100
+    "shares": 20
 }
 
 ###
@@ -62,9 +62,9 @@ Content-Type: application/json
 {
     "walletId": "{{ walletId }}",
     "assetId": "{{ assetId }}",
-    "shares": 10,
-    "price": 100,
-    "type": "BUY"
+    "shares": 15,
+    "price": 5,
+    "type": "SELL"
 }
 
 ###
