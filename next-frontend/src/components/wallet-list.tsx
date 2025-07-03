@@ -27,8 +27,10 @@ export async function WalletList() {
       <div className="overflow-x-auto w-full">
         <Table className="w-full max-w-full table-fixed">
           <TableHead>
-            <TableHeadCell>ID</TableHeadCell>
-            <TableHeadCell>Acessar</TableHeadCell>
+            <TableRow>
+              <TableHeadCell>ID</TableHeadCell>
+              <TableHeadCell>Acessar</TableHeadCell>
+            </TableRow>
           </TableHead>
           <TableBody>
             {wallets.map((wallet, key) => (

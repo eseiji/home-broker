@@ -4,3 +4,12 @@
 @source "../.flowbite-react/class-list.json";
 @plugin "flowbite-typography";
 
+@theme {
+  --color-customcolor: #3b82f6;
+  --color-primary: #1e40af;
+  --color-secondary: #64748b;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+}
+

@@ -69,3 +69,23 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/orders?walletId={{ walletId }}
+
+###
+# @name Users
+# @name createUser
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "email": "test@test.com",
+    "password": "123456"
+}
+
+###
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "123456"
+}

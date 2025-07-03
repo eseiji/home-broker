@@ -1,4 +1,4 @@
-import { walletId } from "@/app/page";
+import { walletId } from "@/app/(protected)/page";
 import { AssetInformation, TabItem } from "@/components";
 import { OrderForm } from "@/components/order-form";
 import { AssetDTO } from "@/data/dtos/asset-dto";
