@@ -3,7 +3,7 @@
 import { AssetInformation } from "@/components";
 import { ChartComponent, ChartComponentRef } from "@/components/chart";
 import { AssetModel } from "@/domain/models";
-import { socket } from "../../../socket-io";
+import { socket } from "../../../../socket-io";
 import { Time } from "lightweight-charts";
 import React from "react";
 

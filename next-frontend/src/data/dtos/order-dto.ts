@@ -23,7 +23,7 @@ export interface OrderDto {
   type: OrderType
   status: OrderStatus
 
-  createdAt: Date
-  updatedAt: string
+  // createdAt: Date
+  // updatedAt: string
 }
 

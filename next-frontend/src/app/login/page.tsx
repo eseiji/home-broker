@@ -15,7 +15,7 @@ export default function LoginPage() {
     try {
       const token = await login(email, password)
       localStorage.setItem("token", token)
-      router.push("/")
+      router.push("/wallets")
     } catch (err) {
       console.log('err', err);
 

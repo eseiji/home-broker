@@ -54,21 +54,6 @@ export default async function Home() {
             {wallet.assets.map((walletAsset, index) => {
               return (
                 <WalletAssetTableRow walletAsset={walletAsset} key={index} />
-                // <TableRow key={index}>
-                //   <TableCell>
-                //     <AssetInformation
-
-                //       data={{
-                //         imageUrl: "https://st3.depositphotos.com/1001860/16375/i/450/depositphotos_163757632-stock-photo-amazon-logo-on-a-white.jpg",
-                //         label: walletAsset.asset.name
-                //       }}
-                //     /></TableCell>
-                //   <TableCell>{walletAsset.asset.price}</TableCell>
-                //   <TableCell>{walletAsset.shares}</TableCell>
-                //   <TableCell>
-                //     <Button color="blue" as={Link} href={`/assets/${walletAsset.asset.symbol}`}>Comprar/Vender</Button>
-                //   </TableCell>
-                // </TableRow>
               )
             })}
 

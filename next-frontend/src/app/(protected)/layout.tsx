@@ -31,10 +31,9 @@ export default function ProtectedLayout({
   return (
     <div className="h-screen flex flex-col w-full">
       <Navbar />
-      <div className="container mx-auto  px-4 flex flex-grow">
+      <div className="container mx-auto px-20 flex flex-grow">
         {children}
       </div>
-      <ToastContainer />
     </div>
   );
 }

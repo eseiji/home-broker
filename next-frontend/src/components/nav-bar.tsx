@@ -17,7 +17,7 @@ export default function Navbar() {
   // const wallet_id = searchParams.get("wallet_id");
   const wallet_id = walletId;
   return (
-    <FlowbiteNavbar fluid className="bg-[#1E3A8A] text-white fixed top-0 left-0 right-0 z-50">
+    <FlowbiteNavbar fluid className="bg-[#1E3A8A] text-white">
       <div className="flex items-center gap-4">
         <NavbarBrand href="https://flowbite-react.com">
           <Image
