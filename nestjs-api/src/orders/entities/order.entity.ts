@@ -31,7 +31,7 @@ export class Order {
   partial: number;
 
   @Prop()
-  price: number;
+  price: number
 
   @Prop({ type: String, ref: Wallet.name })
   wallet: WalletDocument | string;
@@ -54,4 +54,4 @@ export class Order {
 
 export const OrderSchema = SchemaFactory.createForClass(Order);
 
-OrderSchema.index({ wallet: 1, asset: 1 }, { unique: true });
+// OrderSchema.index({ wallet: 1, asset: 1 }, { unique: true });

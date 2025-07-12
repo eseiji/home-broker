@@ -18,7 +18,7 @@ func (orderProcessor *OrderProcessor) Process() {
 	orderProcessor.Transaction.Total = float64(shares) * orderProcessor.Transaction.Price
 }
 
-func (orderProcessor OrderProcessor) calculateShares() int {
+func (orderProcessor *OrderProcessor) calculateShares() int {
 	availableShares := orderProcessor.Transaction.Shares
 
 	if orderProcessor.Transaction.BuyOrder.PendingShares < availableShares {

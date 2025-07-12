@@ -21,16 +21,16 @@ GET http://localhost:3000/assets
 GET http://localhost:3000/assets/N1
 
 ###
-POST http://localhost:3000/assets/N1/dailies
+POST http://localhost:3000/assets/AMZN/dailies
 Content-Type: application/json
 
 {
   "date": "2025-04-15",
-  "price": 110
+  "price": 100
 }
 
 ###
-GET http://localhost:3000/assets/N1/dailies
+GET http://localhost:3000/assets/AMZN/dailies
 
 ###
 # @name createWallet
@@ -64,7 +64,7 @@ Content-Type: application/json
     "assetId": "{{ assetId }}",
     "shares": 15,
     "price": 5,
-    "type": "SELL"
+    "type": "BUY"
 }
 
 ###

@@ -37,7 +37,7 @@ export default function WalletPage() {
       </article>
       <div className="overflow-x-auto w-full">
         <Tabs variant="underline">
-          <TabItem active title="Ativos">
+          <TabItem active title="Composição">
             <AssetsTab />
           </TabItem>
           <TabItem title="Ordens">

@@ -40,6 +40,10 @@ export default async function AssetDashboard({ params }: { params: Promise<{ ass
     value: Number(assetDaily.price)
   }))
 
+  console.log('asset', asset);
+  console.log('assetDailies', assetDailies);
+  console.log('chartData', chartData);
+
   return (
     <div className="flex flex-col space-y-5 flex-grow w-full">
       <div className="flex flex-col space-y-2">

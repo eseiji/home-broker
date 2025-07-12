@@ -28,15 +28,24 @@ export function OrderForm(props: OrderFormProps) {
 
     socket.connect()
 
-    const newOrder: OrderDto = await socket.emitWithAck("orders/create", data)
+    const payload = {
+      walletId: walletId,
+      assetId: data.assetId,
+      shares: data.shares,
+      price: data.price,
+      type: data.type
+    }
+    console.log('payload', payload);
 
-    console.log('newOrder', newOrder);
+    // const newOrder: OrderDto = await socket.emitWithAck("orders/create", payload)
+
+    // console.log('newOrder', newOrder);
 
 
-    toast(`Ordem de ${translatedType} de ${newOrder.shares} ações de ${newOrder.asset.symbol} criada com sucesso!`, {
-      type: 'success',
-      position: 'top-right'
-    })
+    // toast(`Ordem de ${translatedType} de ${newOrder.shares} ações de ${newOrder.asset.symbol} criada com sucesso!`, {
+    //   type: 'success',
+    //   position: 'top-right'
+    // })
 
   }
 

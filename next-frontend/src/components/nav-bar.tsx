@@ -31,16 +31,14 @@ export default function Navbar() {
         </NavbarBrand>
         <span className="h-5 bg-white w-px" />
         <NavbarCollapse>
-          <Link href={`/?wallet_id=${wallet_id}`} passHref className="text-xl">
-            Carteira
+          <Link href={`/wallets`} passHref className="text-xl">
+            Minhas carteiras
           </Link>
-          <Link href={`/assets/?wallet_id=${wallet_id}`} passHref className="text-xl">
+          <Link href={`/assets`} passHref className="text-xl">
             Ativos
           </Link>
-          <Link href={`/orders?wallet_id=${wallet_id}`} passHref className="text-xl">
-            Ordens
-          </Link>
-        </NavbarCollapse></div>
+        </NavbarCollapse>
+      </div>
       <div className="flex md:order-2">
         <div className="content-center">
           Olá {wallet_id?.substring(0, 5)}...

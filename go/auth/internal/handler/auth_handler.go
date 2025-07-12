@@ -17,7 +17,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	if body.Email != "teste@teste.com" || body.Password != "123456" {
+	if body.Email != "test@test.com" || body.Password != "123456" {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "email ou senha inválidos"})
 		return
 	}

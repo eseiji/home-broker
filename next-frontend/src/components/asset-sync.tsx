@@ -26,7 +26,6 @@ export function AssetSync(props: { assetsSymbols: string[] }) {
       socket.off("assets/price-updated")
     }
   }, [assetsSymbols, updateAsset])
-  return (
-    <div></div>
-  )
+
+  return null
 }

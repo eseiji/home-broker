@@ -5,5 +5,5 @@ export class CreateOrderDto {
   assetId: string;
   shares: number;
   price: number;
-  type: OrderType;
+  type: OrderType
 }

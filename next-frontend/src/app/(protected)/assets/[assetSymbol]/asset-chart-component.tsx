@@ -18,6 +18,7 @@ export function AssetChartComponent({ asset, data }: AssetChartComponentProps) {
   const { symbol } = asset
 
   React.useEffect(() => {
+    console.log('symbol', symbol);
     socket.connect()
     socket.emit("joinAsset", { symbol })
     socket.on("assets-daily/created", (assetDaily) => {
@@ -30,11 +31,13 @@ export function AssetChartComponent({ asset, data }: AssetChartComponentProps) {
 
     })
 
-    return () => {
-      socket.emit('leaveAsset', { symbol })
-      socket.off("assets-daily/created")
-    }
+    // return () => {
+    //   socket.emit('leaveAsset', { symbol })
+    //   socket.off("assets-daily/created")
+    // }
   }, [symbol])
+
+  console.log('data', data);
 
   return (
     <ChartComponent ref={chartRef} header={<AssetInformation data={{
