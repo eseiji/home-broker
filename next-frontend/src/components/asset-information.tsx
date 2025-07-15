@@ -1,4 +1,4 @@
-
+import { twMerge } from "tailwind-merge";
 import Image from "next/image";
 
 interface AssetInformationProps {
@@ -6,18 +6,25 @@ interface AssetInformationProps {
     imageUrl: string
     label: string
   }
+  image?: {
+    width?: number
+    height?: number
+  }
+  classNames?: {
+    container?: string
+    label?: string
+  }
 }
 
-export function AssetInformation({ data }: AssetInformationProps) {
+export function AssetInformation({ data, image, classNames }: AssetInformationProps) {
   return (
-    <div className="flex items-center gap-4 ">
+    <div className={twMerge("flex items-center gap-4 ", classNames?.container)}>
       <Image src={data.imageUrl}
-        width={30}
-        height={30}
-
+        width={image?.width || 30}
+        height={image?.height || 30}
         alt={data.label} />
 
-      <span>{data.label}</span>
+      <span className={twMerge("", classNames?.label)}>{data.label}</span>
     </div>
   )
 }

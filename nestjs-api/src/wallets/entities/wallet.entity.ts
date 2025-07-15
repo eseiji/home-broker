@@ -10,6 +10,9 @@ export class Wallet {
   @Prop({ default: () => crypto.randomUUID() })
   _id: string;
 
+  @Prop({ required: true })
+  name: string;
+
   @Prop({
     type: [mongoose.Schema.Types.String],
     set: (v) => [...new Set(v)],

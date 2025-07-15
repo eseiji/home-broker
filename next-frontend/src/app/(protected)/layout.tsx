@@ -5,6 +5,7 @@ import { ToastContainer } from "@/components/toast-container";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { profile } from "@/data/services/auth";
+import Sidebar from "@/components/sidebar";
 
 export default function ProtectedLayout({
   children,
@@ -29,9 +30,10 @@ export default function ProtectedLayout({
 
 
   return (
-    <div className="h-screen flex flex-col w-full">
-      <Navbar />
-      <div className="container mx-auto px-20 flex flex-grow">
+    <div className="h-screen flex w-full">
+      {/* <Navbar /> */}
+      <Sidebar />
+      <div className="container pt-10 pb-5 px-10 flex flex-grow">
         {children}
       </div>
     </div>

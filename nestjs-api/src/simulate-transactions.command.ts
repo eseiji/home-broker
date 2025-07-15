@@ -171,9 +171,9 @@ export class SimulateTransactionsCommand extends CommandRunner {
   }
 
   async createWallets() {
-    this.wallet1 = await this.walletsService.create({});
+    this.wallet1 = await this.walletsService.create({ name: 'Carteira 1' });
     this.logger.log(`Wallet ${this.wallet1._id} created`);
-    this.wallet2 = await this.walletsService.create({});
+    this.wallet2 = await this.walletsService.create({ name: 'Carteira 2' });
     this.logger.log(`Wallet ${this.wallet2._id} created`);
   }
 
@@ -201,7 +201,7 @@ export class SimulateTransactionsCommand extends CommandRunner {
       Array.from({ length: end - start }, (_, i) => i + start);
 
     for (const index of range(1, 50)) {
-      const price = Math.floor(Math.random() * (150 - 10 + 1)) + 10;
+      const price = Math.floor(Math.random() * (50 - 10 + 1)) + index;
       const orderSell = await this.ordersService.create({
         assetId: this.assets[0]._id as any,
         walletId: this.wallet1._id,

@@ -55,29 +55,30 @@ export default async function AssetDashboard({ params }: { params: Promise<{ ass
         <AssetPrice asset={asset} />
       </div>
 
-      <div className="grid grid-cols-5 flex-grow gap-2">
-        <div className="col-span-2">
-          <Card>
-            <Tabs>
-              <TabItem active title="Comprar">
-                <OrderForm asset={{
-                  ...asset,
-                  id: asset._id
-                }} walletId={walletId} type={OrderType.BUY} />
-              </TabItem>
-              <TabItem title="Vender"> <OrderForm asset={{
-                ...asset,
-                id: asset._id
-              }} walletId={walletId} type={OrderType.SELL} /></TabItem>
-            </Tabs>
-          </Card>
-        </div>
-        <div className="col-span-3 flex flex-grow">
+      <div className="flex flex-col gap-2">
+
+        <div className="flex">
           <AssetChartComponent asset={{
             ...asset,
             id: asset._id
           }} data={chartData} />
         </div>
+      </div>
+      <div className="">
+        <Card>
+          <Tabs>
+            <TabItem active title="Comprar">
+              <OrderForm asset={{
+                ...asset,
+                id: asset._id
+              }} walletId={walletId} type={OrderType.BUY} />
+            </TabItem>
+            <TabItem title="Vender"> <OrderForm asset={{
+              ...asset,
+              id: asset._id
+            }} walletId={walletId} type={OrderType.SELL} /></TabItem>
+          </Tabs>
+        </Card>
       </div>
       <AssetSync assetsSymbols={[asset.symbol]} />
     </div>

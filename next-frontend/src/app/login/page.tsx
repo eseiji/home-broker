@@ -24,22 +24,26 @@ export default function LoginPage() {
   }
 
   return (
-    <form onSubmit={handleLogin} className="p-4 space-y-2">
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        className="border p-2 w-full"
-      />
-      <input
-        type="password"
-        placeholder="Senha"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        className="border p-2 w-full"
-      />
-      <button type="submit" className="bg-blue-500 text-white p-2 w-full">Entrar</button>
-    </form>
+    <div className=" bg-assistant-1 w-full h-full flex items-center justify-center">
+      <div className="border border-assistant-2 bg-assistant-3 w-fit rounded-md p-4">
+        <form onSubmit={handleLogin} className="p-4 space-y-2">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            className="border p-2 w-full rounded bg-white"
+          />
+          <input
+            type="password"
+            placeholder="Senha"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="border p-2 w-full rounded bg-white"
+          />
+          <button type="submit" className="bg-assistant-1 mt-10 text-white p-2 w-full rounded">Entrar</button>
+        </form>
+      </div>
+    </div>
   )
 }

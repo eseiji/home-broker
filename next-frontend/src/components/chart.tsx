@@ -28,7 +28,7 @@ export type ChartComponentRef = {
 };
 
 export function ChartComponent(props: {
-  header: React.ReactNode;
+  header?: React.ReactNode;
   data?: AreaData<Time>[];
   ref: Ref<ChartComponentRef>;
 }) {
@@ -98,9 +98,11 @@ export function ChartComponent(props: {
 
   return (
     <div className="flex-grow relative" ref={chartContainerRef}>
-      <div className="absolute top-0 left-0 z-50 bg-gray-100 rounded-md p-2 shadow-md">
-        {header}
-      </div>
+      {header && (
+        <div className="absolute top-0 left-0 z-50 bg-gray-100 rounded-md p-2 shadow-md">
+          {header}
+        </div>
+      )}
     </div>
   );
 }

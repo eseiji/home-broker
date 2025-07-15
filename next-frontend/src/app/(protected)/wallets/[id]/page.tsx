@@ -8,8 +8,6 @@ import React from "react";
 import { getWallet, getWallets } from "@/data/services/wallets/get";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { BsCoin, BsReceipt } from "react-icons/bs";
-import { IoReceiptOutline } from "react-icons/io5";
 import AssetsTab from "./assets-tab";
 import OrdersTab from "./orders-tab";
 
@@ -33,10 +31,26 @@ export default function WalletPage() {
   return (
     <div className="flex flex-col space-y-5 flex-grow w-full">
       <article className="w-full">
-        <h1 className="text-4xl font-bold">Carteira: {walletId}</h1>
+        <h2 className="font-bold">{wallet?.name}</h2>
       </article>
-      <div className="overflow-x-auto w-full">
-        <Tabs variant="underline">
+      <div className="overflow-x-auto w-full h-full">
+        <Tabs variant="underline" className="[&>button]:cursor-pointer" theme={
+          {
+            "tablist": {
+              "tabitem": {
+                "base": "px-6",
+                "variant": {
+                  "underline": {
+                    "base": "rounded-t-lg",
+                    "active": {
+                      "on": "border-assistant-3 text-assistant-3 dark:border-assistant-3 dark:text-assistant-3"
+                    }
+                  }
+                },
+              }
+            },
+          }
+        }>
           <TabItem active title="Composição">
             <AssetsTab />
           </TabItem>

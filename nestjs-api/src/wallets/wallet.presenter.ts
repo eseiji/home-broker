@@ -6,11 +6,12 @@ import { Wallet } from './entities/wallet.entity';
 export class WalletPresenter {
   constructor(
     private wallet: Wallet & { assets: (WalletAsset & { asset: Asset })[] },
-  ) {}
+  ) { }
 
   toJSON() {
     return {
       _id: this.wallet._id,
+      name: this.wallet.name,
       assets: this.wallet.assets.map((walletAsset) => {
         const assetPresenter = new AssetPresenter(walletAsset.asset);
         return {

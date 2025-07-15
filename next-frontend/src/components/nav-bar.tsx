@@ -6,6 +6,7 @@ import {
   NavbarCollapse,
   NavbarLink,
   NavbarToggle,
+  Sidebar
 } from "flowbite-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -17,17 +18,16 @@ export default function Navbar() {
   // const wallet_id = searchParams.get("wallet_id");
   const wallet_id = walletId;
   return (
-    <FlowbiteNavbar fluid className="bg-[#1E3A8A] text-white">
+    <FlowbiteNavbar fluid className="bg-assistant-1 text-white py-5">
       <div className="flex items-center gap-4">
         <NavbarBrand href="https://flowbite-react.com">
           <Image
-            className="mr-3"
+            className="p-1 bg-assistant-5 rounded"
             alt="Full Cycle Invest"
-            src="https://st3.depositphotos.com/1001860/16375/i/450/depositphotos_163757632-stock-photo-amazon-logo-on-a-white.jpg"
-            width={30}
-            height={30}
+            src="/images/logo.png"
+            width={200}
+            height={200}
           />
-          <span className="text-xl">Invest</span>
         </NavbarBrand>
         <span className="h-5 bg-white w-px" />
         <NavbarCollapse>

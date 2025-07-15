@@ -23,10 +23,12 @@ export function AssetTableRow(props: { asset: AssetDTO }) {
             imageUrl: "https://st3.depositphotos.com/1001860/16375/i/450/depositphotos_163757632-stock-photo-amazon-logo-on-a-white.jpg",
             label: newAsset.name
           }}
-        /></TableCell>
+        />
+      </TableCell>
+      <TableCell>{newAsset.symbol}</TableCell>
       <TableCell>{newAsset.price}</TableCell>
       <TableCell>
-        <Button color="blue" as={Link} href={`/assets/${newAsset.symbol}`}>Comprar/Vender</Button>
+        <Button color="blue" size="xs" as={Link} href={`/assets/${newAsset.symbol}`}>Comprar/Vender</Button>
       </TableCell>
     </TableRow>
   )

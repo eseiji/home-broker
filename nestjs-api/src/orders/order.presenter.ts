@@ -3,7 +3,7 @@ import { Asset } from '../assets/entities/asset.entity';
 import { Order } from './entities/order.entity';
 
 export class OrderPresenter {
-  constructor(private order: Order & { asset: Asset }) {}
+  constructor(private order: Order & { asset: Asset }) { }
 
   toJSON() {
     return {
@@ -14,6 +14,8 @@ export class OrderPresenter {
       price: this.order.price,
       type: this.order.type,
       status: this.order.status,
+      createdAt: this.order.createdAt.toISOString(),
+      updatedAt: this.order.updatedAt.toISOString(),
     };
   }
 }
