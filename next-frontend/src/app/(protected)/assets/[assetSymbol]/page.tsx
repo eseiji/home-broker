@@ -28,7 +28,6 @@ export async function getAssetDailies(assetSymbol: string): Promise<AssetDailyDT
 
 
 export default async function AssetDashboard({ params }: { params: Promise<{ assetSymbol: string }> }) {
-
   const { assetSymbol } = await params
 
   const asset = await getAsset(assetSymbol)
@@ -39,10 +38,6 @@ export default async function AssetDashboard({ params }: { params: Promise<{ ass
     time: (Date.parse(assetDaily.date) / 1000) as Time,
     value: Number(assetDaily.price)
   }))
-
-  console.log('asset', asset);
-  console.log('assetDailies', assetDailies);
-  console.log('chartData', chartData);
 
   return (
     <div className="flex flex-col space-y-5 flex-grow w-full">
@@ -56,27 +51,31 @@ export default async function AssetDashboard({ params }: { params: Promise<{ ass
       </div>
 
       <div className="flex flex-col gap-2">
-
-        <div className="flex">
+        <Card>
           <AssetChartComponent asset={{
             ...asset,
             id: asset._id
           }} data={chartData} />
-        </div>
+        </Card>
       </div>
-      <div className="">
+      <div className="w-1/2">
         <Card>
-          <Tabs>
-            <TabItem active title="Comprar">
+          <Tabs variant="fullWidth">
+            <TabItem title="Comprar">
               <OrderForm asset={{
                 ...asset,
                 id: asset._id
-              }} walletId={walletId} type={OrderType.BUY} />
+              }} walletId={walletId || ""} type={OrderType.BUY} />
             </TabItem>
-            <TabItem title="Vender"> <OrderForm asset={{
-              ...asset,
-              id: asset._id
-            }} walletId={walletId} type={OrderType.SELL} /></TabItem>
+            <TabItem
+              title="Vender"
+              className="[&.active]:bg-red-100 [&.active]:text-red-700 hover:bg-red-50 hover:text-red-600"
+            >
+              <OrderForm asset={{
+                ...asset,
+                id: asset._id
+              }} walletId={walletId || ""} type={OrderType.SELL} />
+            </TabItem>
           </Tabs>
         </Card>
       </div>

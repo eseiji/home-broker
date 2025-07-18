@@ -64,7 +64,12 @@ export function ChartComponent(props: {
   }));
 
   useEffect(() => {
-    seriesRef.current = chartRef.current.api().addSeries(AreaSeries);
+    seriesRef.current = chartRef.current.api().addSeries(AreaSeries, {
+      topColor: 'rgba(37, 99, 235, 0.4)',
+      bottomColor: 'rgba(37, 99, 235, 0.05)',
+      lineColor: 'rgb(37, 99, 235)',
+      lineWidth: 2,
+    });
     seriesRef.current.setData(data || []);
     // seriesRef.current.setData([
     //   { time: "2018-12-22", value: 32.51 },
@@ -97,7 +102,7 @@ export function ChartComponent(props: {
   }, []);
 
   return (
-    <div className="flex-grow relative" ref={chartContainerRef}>
+    <div className="flex-grow relative " ref={chartContainerRef}>
       {header && (
         <div className="absolute top-0 left-0 z-50 bg-gray-100 rounded-md p-2 shadow-md">
           {header}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/nav-bar";
 import { ToastContainer } from "@/components/toast-container";
+import { ThemeConfig } from "flowbite-react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,6 +16,7 @@ export default function PublicLayout({
 }>) {
   return (
     <html lang="en">
+      <ThemeConfig dark={false} />
       <body className="h-screen flex flex-col">
         {children}
         <ToastContainer />

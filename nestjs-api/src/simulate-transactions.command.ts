@@ -171,9 +171,9 @@ export class SimulateTransactionsCommand extends CommandRunner {
   }
 
   async createWallets() {
-    this.wallet1 = await this.walletsService.create({ name: 'Carteira 1' });
+    this.wallet1 = await this.walletsService.create({ name: 'Ativos voltados ao setor de tecnologia' });
     this.logger.log(`Wallet ${this.wallet1._id} created`);
-    this.wallet2 = await this.walletsService.create({ name: 'Carteira 2' });
+    this.wallet2 = await this.walletsService.create({ name: 'Ativos voltados ao setor energético' });
     this.logger.log(`Wallet ${this.wallet2._id} created`);
   }
 
@@ -200,7 +200,7 @@ export class SimulateTransactionsCommand extends CommandRunner {
     const range = (start: number, end: number) =>
       Array.from({ length: end - start }, (_, i) => i + start);
 
-    for (const index of range(1, 50)) {
+    for (const index of range(1, 100)) {
       const price = Math.floor(Math.random() * (50 - 10 + 1)) + index;
       const orderSell = await this.ordersService.create({
         assetId: this.assets[0]._id as any,
@@ -226,28 +226,27 @@ export class SimulateTransactionsCommand extends CommandRunner {
 
       await sleep(500);
 
-      if (generateOrdersClosed) {
-        await this.ordersService.createTrade({
-          brokerTradeId: `broker_trade_id_${index}`,
-          relatedInvestorId: `related_investor_id_${index}`,
-          shares: 10,
-          orderId: orderSell._id,
-          price,
-          status: OrderStatus.CLOSED,
-          date: new Date(),
-        });
-        await this.ordersService.createTrade({
-          brokerTradeId: `broker_trade_id_${index}`,
-          relatedInvestorId: `related_investor_id_${index}`,
-          shares: 10,
-          orderId: orderBuy._id,
-          price,
-          status: OrderStatus.CLOSED,
-          date: new Date(),
-        });
-        this.logger.log(`Orders SELL closed: index ${index}`);
-        await sleep(500);
-      }
+      await this.ordersService.createTrade({
+        brokerTradeId: `broker_trade_id_${index}`,
+        relatedInvestorId: `related_investor_id_${index}`,
+        shares: 10,
+        orderId: orderSell._id,
+        price,
+        status: OrderStatus.CLOSED,
+        date: new Date(),
+      });
+      await this.ordersService.createTrade({
+        brokerTradeId: `broker_trade_id_${index}`,
+        relatedInvestorId: `related_investor_id_${index}`,
+        shares: 10,
+        orderId: orderBuy._id,
+        price,
+        status: OrderStatus.CLOSED,
+        date: new Date(),
+      });
+      this.logger.log(`Orders SELL closed: index ${index}`);
+      await sleep(500);
+
     }
     this.logger.log('Orders created');
   }

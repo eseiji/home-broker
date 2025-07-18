@@ -34,7 +34,7 @@ export default function WalletsPage() {
               <h5 className="text-2xl font-bold tracking-tight">
                 {wallet.name}
               </h5>
-              <p className="font-normal text-gray-700 dark:text-gray-400">
+              <p className="font-normal text-gray-700 ">
                 {wallet.assets.length} ativos
               </p>
               <Button href={`/wallets/${wallet._id}`} as={Link} className="flex items-center gap-2 bg-assistant-3 cursor-pointer hover:bg-assistant-3/80 transition-colors w-full" type="button">

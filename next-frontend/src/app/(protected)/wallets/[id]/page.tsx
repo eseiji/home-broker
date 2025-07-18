@@ -43,7 +43,7 @@ export default function WalletPage() {
                   "underline": {
                     "base": "rounded-t-lg",
                     "active": {
-                      "on": "border-assistant-3 text-assistant-3 dark:border-assistant-3 dark:text-assistant-3"
+                      "on": "border-assistant-3 text-assistant-3"
                     }
                   }
                 },
