@@ -18,18 +18,17 @@ export default function Navbar() {
   // const wallet_id = searchParams.get("wallet_id");
   const wallet_id = walletId;
   return (
-    <FlowbiteNavbar fluid className="bg-assistant-1 text-white py-5">
+    <FlowbiteNavbar fluid className="bg-gray-800 text-white py-5">
       <div className="flex items-center gap-4">
         <NavbarBrand href="https://flowbite-react.com">
           <Image
-            className="p-1 bg-assistant-5 rounded"
             alt="Full Cycle Invest"
             src="/images/logo.png"
             width={200}
             height={200}
           />
         </NavbarBrand>
-        <span className="h-5 bg-white w-px" />
+        {/* <span className="h-5 bg-white w-px" />
         <NavbarCollapse>
           <Link href={`/wallets`} passHref className="text-xl">
             Minhas carteiras
@@ -37,7 +36,7 @@ export default function Navbar() {
           <Link href={`/assets`} passHref className="text-xl">
             Ativos
           </Link>
-        </NavbarCollapse>
+        </NavbarCollapse> */}
       </div>
       <div className="flex md:order-2">
         <div className="content-center">

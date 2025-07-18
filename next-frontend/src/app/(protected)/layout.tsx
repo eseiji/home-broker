@@ -15,9 +15,10 @@ function ProtectedContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="h-screen flex w-full">
-      <Sidebar />
-      <div className="container pt-10 pb-5 px-10 flex flex-col flex-1 overflow-auto">
+    <div className="h-screen w-full">
+      {/* <Sidebar /> */}
+      <Navbar />
+      <div className="container pt-10 pb-5 m-auto px-10 flex flex-col overflow-auto">
         {children}
       </div>
     </div>
