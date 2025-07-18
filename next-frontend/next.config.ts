@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   /* config options here */
   images: {
     domains: ["localhost", "st3.depositphotos.com"]
+  },
+  experimental: {
+    optimizePackageImports: ['flowbite-react']
   }
 };
 

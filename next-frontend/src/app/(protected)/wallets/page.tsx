@@ -21,12 +21,12 @@ export default function WalletsPage() {
   }, [])
 
   return (
-    <div className="flex flex-col space-y-5 flex-grow w-full">
-      <article className="format px-10">
+    <div className="flex flex-col space-y-5 w-full">
+      <article className="format">
         <h2 className="font-bold">Carteiras</h2>
       </article>
 
-      <div className="flex gap-5 h-full w-full px-10">
+      <div className="flex gap-5 h-full w-full">
 
         {wallets.map((wallet, index) => {
           return (
@@ -44,30 +44,6 @@ export default function WalletsPage() {
             </Card>
           )
         })}
-
-        {/* <Table className="w-full max-w-full table-fixed">
-          <TableHead>
-            <TableRow className="[&>th]:bg-gray-200">
-              <TableHeadCell>ID</TableHeadCell>
-              <TableHeadCell>Quantidade de ativos</TableHeadCell>
-              <TableHeadCell>Acessar</TableHeadCell>
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            {wallets.map((wallet, index) => {
-              return (
-                <TableRow key={index}>
-                  <TableCell>{wallet._id}</TableCell>
-                  <TableCell>{wallet.assets.length}</TableCell>
-                  <TableCell>
-                    <Link href={`/wallets/${wallet._id}`}>Acessar</Link>
-                  </TableCell>
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table> */}
       </div>
     </div>
   );

@@ -22,23 +22,25 @@ export default async function AssetsPage() {
         <h2 className="font-bold">Ativos</h2>
       </article>
 
-      <Table.Root>
-        <Table.Header>
-          <TableHeadCell>Ativo</TableHeadCell>
-          <TableHeadCell>Código</TableHeadCell>
-          <TableHeadCell>Cotação</TableHeadCell>
-          <TableHeadCell>Comprar/Vender</TableHeadCell>
-        </Table.Header>
+      <div className="h-full w-full">
+        <Table.Root>
+          <Table.Header>
+            <TableHeadCell>Ativo</TableHeadCell>
+            <TableHeadCell>Código</TableHeadCell>
+            <TableHeadCell>Cotação</TableHeadCell>
+            <TableHeadCell>Comprar/Vender</TableHeadCell>
+          </Table.Header>
 
-        <Table.Body>
-          {assets.map((asset) => {
-            return (
-              <AssetTableRow asset={asset} key={asset._id} />
-            )
-          })}
+          <Table.Body>
+            {assets.map((asset) => {
+              return (
+                <AssetTableRow asset={asset} key={asset._id} />
+              )
+            })}
 
-        </Table.Body>
-      </Table.Root>
+          </Table.Body>
+        </Table.Root>
+      </div>
 
       <AssetSync assetsSymbols={assets.map(asset => asset.symbol)} />
     </div>
