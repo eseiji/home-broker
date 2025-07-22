@@ -10,13 +10,11 @@ import {
 } from "flowbite-react";
 import Link from "next/link";
 import Image from "next/image";
-// import { useSearchParams } from "next/navigation";
-import { walletId } from "@/app/(protected)/page";
+import { useAuthStore } from "@/stores/auth-store";
 
 export default function Navbar() {
-  // const searchParams = useSearchParams();
-  // const wallet_id = searchParams.get("wallet_id");
-  const wallet_id = walletId;
+  const { user, logout } = useAuthStore();
+
   return (
     <FlowbiteNavbar fluid className="bg-gray-800 text-white py-5">
       <div className="flex items-center gap-4">
@@ -38,10 +36,16 @@ export default function Navbar() {
           </Link>
         </NavbarCollapse> */}
       </div>
-      <div className="flex md:order-2">
+      <div className="flex md:order-2 items-center gap-4">
         <div className="content-center">
-          Olá {wallet_id?.substring(0, 5)}...
+          Olá, {user?.name || 'Usuário'}
         </div>
+        <button
+          onClick={logout}
+          className="text-white hover:text-gray-300 transition-colors"
+        >
+          Sair
+        </button>
         <NavbarToggle />
       </div>
     </FlowbiteNavbar>

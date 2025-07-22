@@ -4,35 +4,45 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { login, profile } from "@/data/services/auth"
+import { register, profile } from "@/data/services/auth"
 import { toast } from "react-toastify"
 import { useAuthStore } from "@/stores/auth-store"
 import Link from "next/link"
 
-const loginSchema = z.object({
+const registerSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Nome é obrigatório")
+    .min(2, "Nome deve ter pelo menos 2 caracteres"),
   email: z
     .string()
     .min(1, "Email é obrigatório")
     .email("Email inválido"),
   password: z
     .string()
-    .min(1, "Senha é obrigatória"),
+    .min(6, "Senha deve ter pelo menos 6 caracteres"),
+  confirmPassword: z
+    .string()
+    .min(1, "Confirmação de senha é obrigatória"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "As senhas não coincidem",
+  path: ["confirmPassword"],
 })
 
-type LoginFormData = z.infer<typeof loginSchema>
+type RegisterFormData = z.infer<typeof registerSchema>
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter()
   const { setUser, setAuthenticated } = useAuthStore()
 
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
     mode: "onBlur",
   })
 
-  const handleLogin = async (data: LoginFormData) => {
+  const handleRegister = async (data: RegisterFormData) => {
     try {
-      const token = await login(data.email, data.password)
+      const token = await register(data.email, data.password, data.name)
       localStorage.setItem("token", token)
 
       // Buscar dados do usuário e definir na store
@@ -40,10 +50,11 @@ export default function LoginPage() {
       setUser(userData)
       setAuthenticated(true)
 
+      toast.success("Cadastro realizado com sucesso!")
       router.push("/wallets")
     } catch (err) {
       console.log('err', err);
-      toast.error("Credenciais inválidas")
+      toast.error("Erro ao cadastrar usuário")
     }
   }
 
@@ -51,11 +62,24 @@ export default function LoginPage() {
     <div className="bg-assistant-1 w-full h-full flex items-center justify-center">
       <div className="border border-assistant-2 bg-assistant-3 w-fit rounded-md p-4">
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Entrar</h1>
-          <p className="text-gray-600 mt-2">Faça login em sua conta</p>
+          <h1 className="text-2xl font-bold text-gray-800">Criar Conta</h1>
+          <p className="text-gray-600 mt-2">Preencha os dados para se cadastrar</p>
         </div>
 
-        <form onSubmit={form.handleSubmit(handleLogin)} className="p-4 space-y-2">
+        <form onSubmit={form.handleSubmit(handleRegister)} className="p-4 space-y-2">
+          <div>
+            <input
+              type="text"
+              placeholder="Nome"
+              {...form.register("name")}
+              className={`border p-2 w-full rounded bg-white ${form.formState.errors.name ? 'border-red-500' : ''
+                }`}
+            />
+            {form.formState.errors.name && (
+              <p className="text-red-500 text-sm mt-1">{form.formState.errors.name.message}</p>
+            )}
+          </div>
+
           <div>
             <input
               type="email"
@@ -82,22 +106,35 @@ export default function LoginPage() {
             )}
           </div>
 
+          <div>
+            <input
+              type="password"
+              placeholder="Confirmar senha"
+              {...form.register("confirmPassword")}
+              className={`border p-2 w-full rounded bg-white ${form.formState.errors.confirmPassword ? 'border-red-500' : ''
+                }`}
+            />
+            {form.formState.errors.confirmPassword && (
+              <p className="text-red-500 text-sm mt-1">{form.formState.errors.confirmPassword.message}</p>
+            )}
+          </div>
+
           <button
             type="submit"
             disabled={form.formState.isSubmitting}
             className="bg-assistant-1 mt-10 text-white p-2 w-full rounded disabled:opacity-50"
           >
-            {form.formState.isSubmitting ? 'Entrando...' : 'Entrar'}
+            {form.formState.isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
           </button>
 
           <div className="text-center mt-4">
             <p className="text-gray-600">
-              Não possui conta?{' '}
+              Já possui conta?{' '}
               <Link
-                href="/register"
+                href="/login"
                 className="text-assistant-1 hover:underline font-medium"
               >
-                Cadastre-se
+                Faça login
               </Link>
             </p>
           </div>
@@ -105,4 +142,4 @@ export default function LoginPage() {
       </div>
     </div>
   )
-}
+} 

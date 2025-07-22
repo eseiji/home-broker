@@ -3,14 +3,15 @@
 import Navbar from "@/components/nav-bar";
 import { ToastContainer } from "@/components/toast-container";
 import React from "react";
-import { AuthProvider, useAuth } from "@/components/auth-provider";
+import { AuthInitializer } from "@/components/auth-initializer";
+import { useAuthStore } from "@/stores/auth-store";
 import { LoadingSpinner } from "@/components/loading-spinner";
 import Sidebar from "@/components/sidebar";
 
 function ProtectedContent({ children }: { children: React.ReactNode }) {
-  const { loading } = useAuth()
+  const { isLoading } = useAuthStore()
 
-  if (loading) {
+  if (isLoading) {
     return <LoadingSpinner message="Verificando autenticação..." />
   }
 
@@ -31,10 +32,10 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AuthProvider>
+    <AuthInitializer>
       <ProtectedContent>
         {children}
       </ProtectedContent>
-    </AuthProvider>
+    </AuthInitializer>
   );
 }
