@@ -1,6 +1,7 @@
 'use client'
 
 import Navbar from "@/components/nav-bar";
+import SecondaryNavbar from "@/components/secondary-navbar";
 import { ToastContainer } from "@/components/toast-container";
 import React from "react";
 import { AuthInitializer } from "@/components/auth-initializer";
@@ -19,6 +20,7 @@ function ProtectedContent({ children }: { children: React.ReactNode }) {
     <div className="h-screen w-full">
       {/* <Sidebar /> */}
       <Navbar />
+      <SecondaryNavbar />
       <div className="container pt-10 pb-5 m-auto px-10 flex flex-col overflow-auto">
         {children}
       </div>

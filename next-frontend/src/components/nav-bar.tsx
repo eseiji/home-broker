@@ -16,7 +16,7 @@ export default function Navbar() {
   const { user, logout } = useAuthStore();
 
   return (
-    <FlowbiteNavbar fluid className="bg-gray-800 text-white py-5">
+    <FlowbiteNavbar fluid className="bg-assistant-1 text-white py-5">
       <div className="flex items-center gap-4">
         <NavbarBrand href="https://flowbite-react.com">
           <Image

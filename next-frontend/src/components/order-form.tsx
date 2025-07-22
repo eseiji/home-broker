@@ -5,7 +5,7 @@ import { AssetModel } from "@/domain/models";
 import { Button, Label, Select, TextInput } from "flowbite-react";
 import { socket } from '../socket-io'
 import { toast } from "react-toastify";
-import { AssetPrice } from "@/app/(protected)/assets/asset-price";
+import { AssetPrice } from "@/app/(protected)/wallets/[id]/trade/asset-price";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";

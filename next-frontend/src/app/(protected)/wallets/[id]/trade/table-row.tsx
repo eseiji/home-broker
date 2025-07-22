@@ -5,10 +5,13 @@ import { AssetDTO } from "@/data/dtos/asset-dto";
 import { useAssetStore } from "@/store";
 import { TableCell, Button, TableRow } from "flowbite-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useShallow } from "zustand/shallow";
 
 export function AssetTableRow(props: { asset: AssetDTO }) {
   const { asset } = props
+  const params = useParams();
+  const walletId = params.id;
 
 
   const a = useAssetStore(useShallow((state) => (state.assets.find(stateAsset => stateAsset.symbol === asset.symbol))))
@@ -28,7 +31,7 @@ export function AssetTableRow(props: { asset: AssetDTO }) {
       <TableCell>{newAsset.symbol}</TableCell>
       <TableCell>{newAsset.price}</TableCell>
       <TableCell>
-        <Button color="blue" size="xs" as={Link} href={`/assets/${newAsset.symbol}`}>Comprar/Vender</Button>
+        <Button color="blue" size="xs" as={Link} href={`/wallets/${walletId}/trade/${newAsset.symbol}`}>Comprar/Vender</Button>
       </TableCell>
     </TableRow>
   )
